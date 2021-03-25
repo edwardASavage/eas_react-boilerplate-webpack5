@@ -8,9 +8,8 @@ module.exports = {
     entry: path.resolve(__dirname, "src/index.js"),
     mode: "development",
     output: {
+        filename: 'bundle.js',
         path: path.resolve(__dirname, "dist/"),
-        publicPath: "/",
-        filename: "bundle.[contenthash].js",
     },
     module: {
         rules: [
@@ -34,8 +33,9 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(png|jpg|svg)$/i,
-                loader: "file-loader",
+                // allow for image importing to js files.
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
             },
             {
                 test: /\.s[ac]ss$/i,
@@ -54,7 +54,7 @@ module.exports = {
         new CleanWebpackPlugin(),
         new HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, "public/index.html"), //we put the file that we created in public folder
+            template: path.resolve(__dirname, "public/index.html"), 
         }),
         new MiniCssExtractPlugin({
             filename: "styles.[contenthash].css",
@@ -63,7 +63,7 @@ module.exports = {
     // webpack-dev-server config
     devServer: {
         historyApiFallback: true,
-        contentBase: path.resolve(__dirname, "/"),
+        contentBase: path.resolve(__dirname, "dist"),
         hot: true,
         port: 8000,
     },
